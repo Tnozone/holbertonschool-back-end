@@ -28,7 +28,7 @@ if __name__ == "__main__":
             rows.append(new_dict)
 
     json_dict = {}
-    json_dict[id_number] = 
+    json_dict[id_number] = rows
     json_obj = json.dumps(json_dict)
     with open(argv[1] + ".json", "w") as file:
         file.write(json_obj)
