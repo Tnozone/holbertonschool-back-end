@@ -5,7 +5,7 @@ import requests
 from sys import argv
 
 
-if __name__ == "__main__":i
+if __name__ == "__main__":
     todos = requests.get("https://jsonplaceholder.typicode.com/todos")
     todos_data = todos.json()
     users = requests.get("https://jsonplaceholder.typicode.com/users")
