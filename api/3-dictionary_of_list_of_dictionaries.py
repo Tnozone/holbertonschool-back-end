@@ -17,4 +17,4 @@ if __name__ == "__main__":
                 "completed": todo.get("completed")}
                 for todo in requests.get(
                     g_url + "todos", params={"userId": data.get("id")}).json()]
-                for data in first_url}, file)
+            for data in first_url}, file)
