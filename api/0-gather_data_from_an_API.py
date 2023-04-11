@@ -2,7 +2,7 @@
 """returns information about TODO list progress"""
 
 import requests
-import sys
+import sys import argv
 
 
 if __name__ == "__main__":
@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 total_tasks += 1
 
     print("Employee {} is done with tasks({}/{}):"
-            .format(employee_name, completed_tasks, total_tasks))
+        .format(employee_name, completed_tasks, total_tasks))
 
     task_title = ""
     for data in todos_data:
