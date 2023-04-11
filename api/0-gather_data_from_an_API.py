@@ -6,31 +6,32 @@ import sys
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2 and sys.argv[1].isdigit():
-        employee_id = int(sys.argv[1])
-    else:
-        print("Usage: ./0-gather_data_from_an_API.py <employee_id>")
-        sys.exit(1)
+    todos = requests.get("https://jsonplaceholder.typicode.com/todos")
+    todos_data = todos.json()
+    users = requests.get("https://jsonplaceholder.typicode.com/users")
+    users_data = users.json()
+    employee_name = ""
 
-    response_url = requests.get(
-        f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-        )
-    response_dict = response_url.json()
-    employee_name = response_dict.get("name")
+    for data in users_data:
+        if int(argv[1]) == data.get("id"):
+            employee_name = data.get("name")
 
-    response_url = requests.get(
-            f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
-            )
-    response_dict = response_url.json()
+    completed_tasks = 0
+    total_tasks = 0
 
-    count, total = 0, 0
-    completed_tasks = []
-    for task in response_dict:
-        total += 1
-        if task['completed'] is True:
-            count += 1
-            completed_tasks.append(task['title'])
+    for data in todos_data:
+        if int(argv[1]) == data.get("userId"):
+            if data.get("completed") is True:
+                completed_tasks += 1
+            if data.get("completed") is True or data.get("completed") is False:
+                total_tasks += 1
 
-    print(f"Employee {employee_name} is done with tasks({count}/{total}):")
-    for task in completed_tasks:
-        print("\t " + task)
+    print("Employee {} is done with tasks({}/{}):"
+            .format(employee_name, completed_tasks, total_tasks))
+
+    task_title = ""
+    for data in todos_data:
+        if int(argv[1]) == data.get("userId"):
+            if data.get("completed") is True:
+                task_title = data.get("title")
+                print("\t {}".format(task_title))
