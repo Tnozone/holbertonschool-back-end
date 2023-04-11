@@ -1,37 +1,32 @@
 #!/usr/bin/python3
 """returns information about TODO list progress"""
 
-import requests
+import requests import get
 import sys import argv
 
 
 if __name__ == "__main__":
-    todos = requests.get("https://jsonplaceholder.typicode.com/todos")
-    todos_data = todos.json()
-    users = requests.get("https://jsonplaceholder.typicode.com/users")
-    users_data = users.json()
-    employee_name = ""
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
+    completed = 0
+    total = 0
+    tasks = []
+    response2 = get('https://jsonplaceholder.typicode.com/users/')
+    data2 = response2.json()
 
-    for data in users_data:
-        if int(argv[1]) == data.get("id"):
-            employee_name = data.get("name")
+    for i in data2:
+        if i.get('id') == int(argv[1]):
+            employee = i.get('name')
 
-    completed_tasks = 0
-    total_tasks = 0
+    for i in data:
+        if i.get('userId') == int(argv[1]):
+            total += 1
+            if i.get('completed') is True:
+                completed += 1
+                tasks.append(i.get('title'))
 
-    for data in todos_data:
-        if int(argv[1]) == data.get("userId"):
-            if data.get("completed") is True:
-                completed_tasks += 1
-            if data.get("completed") is True or data.get("completed") is False:
-                total_tasks += 1
+    print("Employee {} is done with tasks({}/{}):".format(employee,
+                                                        completed, total))
 
-    print("Employee {} is done with tasks({}/{}):"
-        .format(employee_name, completed_tasks, total_tasks))
-
-    task_title = ""
-    for data in todos_data:
-        if int(argv[1]) == data.get("userId"):
-            if data.get("completed") is True:
-                task_title = data.get("title")
-                print("\t {}".format(task_title))
+    for i in tasks:
+        print("\t {}".format(i))
